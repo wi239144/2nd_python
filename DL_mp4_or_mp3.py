@@ -12,21 +12,24 @@ yt = YouTube(
     allow_oauth_cache=True
     )
 
+#define invalid chars
+invalid_chars = r'[\/:*?"<>|]'
+
 if choose == 1 :
     #download mp3
     aud = yt.streams.filter(only_audio=True).first()
-    #標題當作文件名稱
-    titlenmae = yt.title + ".mp3"
+    #標題當作文件名稱,replace invalid chars by space
+    cleaned_titlename = re.sub(invalid_chars, ' ', yt.title) + ".mp3"
     #output:
-    aud.download(filename=titlenmae)
+    aud.download(filename=cleaned_titlename)
     print('download as mp3...')
 elif choose == 0 :
     #下載最高畫質影片
     vid = yt.streams.filter().get_highest_resolution()
-    #標題當作文件名稱
-    titlenmae = yt.title + ".mp4"
+    #標題當作文件名稱,replace invalid chars by space
+    cleaned_titlename = re.sub(invalid_chars, ' ', yt.title) + ".mp4"
     #output:
-    vid.download(filename=titlenmae)
+    vid.download(filename=cleaned_titlename)
     print('download as mp4...')
 else:
     print("Error")
